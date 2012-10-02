@@ -1,0 +1,10 @@
+﻿<div id="post-update-form">
+    <div class="post-content-textarea">
+        <textarea name="postUpdateBox" id="postUpdateBox" class="post-textarea" placeholder="What are you doing on?"
+            onclick="UpdatePostBoxFocus(this.id)" onkeyup="ButtonEnable('postUpdateButton', this)"></textarea>
+    </div>
+    <div class="post-content-button">
+        <input type="button" name="postUpdateButton" id="postUpdateButton" class="postdisabledbtn" disabled="disabled" onclick="PostUpdate('postUpdateBox', 'postUpdateButton')"
+            value="Update" />
+    </div>
+</div>

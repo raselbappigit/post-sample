@@ -1,0 +1,10 @@
+﻿@model PostSample.Models.Post
+@using PostSample.Helpers
+@if (Model != null)
+{
+    <div class="post-show-comments-container">
+        <span class="normal"></span><a class="show-older-comments
+                            links" href="#" title="show comments">Show @Model.TotalComments
+            older comments »</a>
+    </div>
+}

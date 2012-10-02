@@ -1,0 +1,25 @@
+﻿@model PostSample.Models.PostComment
+@using PostSample.Helpers
+<li class="comment-in-replay-@Model.CommentId post-comment-item">
+    <div class="comment">
+        <div class="comment-img">
+            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+        </div>
+        <div class="comment-content">
+            <div class="content">
+                <span class="plan-span"><a class="user-name links" href="#">@Model.User.FullName</a>
+                    in replay to <a class="user-name links" href="#">@Model.PerantPostComment.User.FullName</a>
+                    : </span><span class="word-break
+                                                    plan-span">@Model.Content</span>
+            </div>
+            <div class="content">
+                <span class="content-time">@Model.CreatedDate.ToString("dd MMMM, yyyy")
+                    at @Model.CreatedDate.ToString("hh:mm tt")</span><span class="content-links"><span
+                        class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@Model.PostId,
+                                                    @Model.CommentId)">Replay</a></span> <span><a class="links" onclick="CommentLike(@Model.PostId, @Model.CommentId,
+                                                        this)">Like</a></span> <span><a class="links">More</a></span>
+                    </span></span>
+            </div>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,32 @@
+﻿<div id="post-poll-form">
+    <div class="post-content-textarea">
+        <textarea name="postPollBox" id="postPollBox" class="post-textarea" placeholder="What's your question?"
+            onclick="PollPostBoxFocus(this.id)"></textarea>
+    </div>
+    <div class="post-poll-all-answer">
+        <div id="pollAnswerBox">
+            <p class="post-poll-answer">
+                <input type="text" name="postPollAnswer" class="post-poll-answer-text" value="Answer A"
+                    onfocus="inputOnFocus(this)" onblur="inputOnBlur(this)" />
+            </p>
+            <p class="post-poll-answer">
+                <input type="text" name="postPollAnswer" class="post-poll-answer-text" value="Answer B"
+                    onfocus="inputOnFocus(this)" onblur="inputOnBlur(this)" onkeyup="ButtonEnable('postPollButton', this)" />
+            </p>
+            <p class="post-poll-answer">
+                <input type="text" name="postPollAnswer" class="post-poll-answer-text" value="Answer C"
+                    onfocus="inputOnFocus(this)" onblur="inputOnBlur(this)" />
+            </p>
+            <p class="post-poll-answer">
+                <input type="text" name="postPollAnswer" class="post-poll-answer-text" value="Answer D"
+                    onfocus="inputOnFocus(this)" onblur="inputOnBlur(this)" onclick="AddPollAnswerBox(this.name)"
+                    onkeypress="AddPollAnswerBox(this.name)" />
+            </p>
+        </div>
+    </div>
+    <div class="post-content-button">
+        <input type="button" name="postPollButton" id="postPollButton" class="postdisabledbtn"
+            disabled="disabled" onclick="PostPoll('postPollBox', 'postPollButton' ,'postPollAnswer')"
+            value="Update" />
+    </div>
+</div>

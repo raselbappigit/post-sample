@@ -1,0 +1,50 @@
+﻿@model PostSample.Models.Post
+@using PostSample.Helpers
+@if (Model != null)
+{ 
+    <li id="post-@Model.PostId" class="post-item">
+        <div class="post-container block-inline">
+            <div class="post-img">
+                <img src="../../Content/images/profile.png" class="poster-image" alt="image" />
+            </div>
+            <div class="post-content-body">
+                <div class="content">
+                    <div class="question-content">
+                        <div class="block-list">
+                            <a class="user-name links" href="#">@Model.User.FullName</a>
+                        </div>
+                        <div class="block-list word-break">
+                            <span class="post-question-img">&nbsp;</span><span class="word-break question-text">@Model.Content</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <span class="content-time">@Model.CreatedDate.ToString("dd MMMM, yyyy") at @Model.CreatedDate.ToString("hh:mm tt")</span><span
+                        class="content-links"><span class="content-action"> <span><a class="links" onclick="CommentLinkFocus(@Model.PostId)">
+                            Answer</a></span> <span><a class="links"  onclick="PostLike(@Model.PostId, this)">Like</a></span>
+                            <span><a class="links">More</a></span> </span></span>
+                </div>
+            </div>
+        </div>
+        <div class="post-comments-container block-inline">
+            <div class="comment-pointer">
+                <span class="comment-pointer-icon icon-inline"></span>
+            </div>
+            <div id="postLike-@Model.PostId">
+            </div>
+            <div id="postShowComment-@Model.PostId">
+            </div>
+            <div class="post-comments-body">
+                <div class="post-comment-list">
+                    <ol class="postCurrentComment-@Model.PostId comment-ol">
+                    </ol>
+                </div>
+            </div>
+            <div class="post-comment">
+                <input type="text" name="postCommentBox-@Model.PostId" id="postCommentBox-@Model.PostId" class="post-comment-box" value="Write a comment..." onfocus="CommentBoxFocus(this.id)" onblur="CommentBoxOnBlur(this)" onkeypress="EnterKeyCommentSubmit(this.id, @Model.PostId, this.value, event)"   />
+                <input type="hidden" name="pComIdHd" id="pComIdHd-@Model.PostId" value="" />
+            </div>
+        </div>
+    </li>
+
+}

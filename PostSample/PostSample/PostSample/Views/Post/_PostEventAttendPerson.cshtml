@@ -1,0 +1,10 @@
+﻿@model PostSample.Models.EventPost
+@using PostSample.Helpers
+@if (Model != null)
+{
+    foreach (var itemEventPersons in Model.EventAttendPersons.ToList())
+    {
+    <span class="plan-span"><a class="links" href="#" title="@itemEventPersons.User.FullName">
+        <img src="../../Content/images/profile.png" class="poster-image" alt="@itemEventPersons.User.FullName" /></a></span>
+    }
+}

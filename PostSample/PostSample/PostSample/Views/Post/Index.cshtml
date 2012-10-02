@@ -1,0 +1,2978 @@
+﻿@model IEnumerable<PostSample.Models.Post>
+@{
+    ViewBag.Title = "Post page";
+    string logUser = @User.Identity.Name;
+   
+}
+<style type="text/css">
+    #wall-post
+    {
+        width: 700px;
+        display: inline-block;
+        padding: 5px;
+        margin: 0px;
+    }
+    
+    #post-area-content
+    {
+        display: inline-block;
+        padding: 0px;
+        margin: 0px;
+    }
+    
+    .post-content-textarea
+    {
+        padding: 0px;
+        margin: 5px 0px 0px 0px;
+    }
+    
+    .post-textarea
+    {
+        border: 1px solid #CCCCCC !important;
+        color: #696969 !important;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        font-size: 14px !important;
+        width: 600px !important;
+        height: 30px !important;
+        min-height: 30px !important;
+        margin: 0px !important;
+        padding: 5px !important;
+        resize: none;
+        overflow: hidden;
+    }
+    
+    .post-content-button
+    {
+        text-align: right;
+        margin: 10px 0px 0px 0px;
+    }
+    
+    .postdisabledbtn
+    {
+        background-color: #E8E8E8 !important;
+        background-image: -moz-linear-gradient(center top , #E8E8E8 0%, #E8E8E8 100%);
+        border: 1px solid #1E3950 !important;
+        border-radius: 2px 2px 2px 2px !important;
+        color: #1E3950 !important;
+        display: inline-block !important;
+        font: bold 12px/1.5 !important;
+        padding: 3px 12px !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+        word-wrap: break-word !important;
+        top: 0;
+    }
+    
+    .postenablebtn
+    {
+        background-color: #5C87B2 !important;
+        background-image: -moz-linear-gradient(center top , #5C87B2 0%, #5C87B2 100%);
+        border: 1px solid #1D6291 !important;
+        border-radius: 2px 2px 2px 2px !important;
+        color: #fff !important;
+        display: inline-block !important;
+        font: bold 12px/1.5 !important;
+        padding: 3px 12px !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+        word-wrap: break-word !important;
+        top: 0;
+        cursor: pointer !important;
+    }
+    
+    #postContent
+    {
+    }
+    
+    #post-list
+    {
+        width: 610px !important;
+    }
+    
+    #currentPost
+    {
+    }
+    
+    .post-ol
+    {
+    }
+    
+    ol.post-ol
+    {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+    }
+    ol.post-ol li
+    {
+        background-color: #e3e8ea;
+        min-height: 18px;
+        border-top: 1px solid #d1dae0;
+        color: #1E3950;
+        text-shadow: 0 1px 0 #FFFFFF;
+        border-left: 1px solid #d1dae0;
+        border-bottom: 1px solid #e2ecf7;
+        margin-top: 10px;
+        padding: 5px;
+        font-size: 12px !important;
+    }
+    ol.post-ol li aside
+    {
+        position: absolute;
+        display: none;
+        right: 0;
+        top: 9px;
+    }
+    ol.post-ol li:hover aside
+    {
+        display: block;
+        background: #FFE87C;
+        padding-left: 5px;
+        padding-bottom: 2px;
+    }
+    ol.post-ol li p
+    {
+        padding: 8px 10px 0 8px;
+        margin: 0;
+    }
+    ol.post-ol li span
+    {
+        width: auto;
+        margin: 0;
+        padding: 0px 5px;
+    }
+    ol.post-ol li em
+    {
+        font-size: 12px;
+        width: auto;
+        background: transparent;
+        margin: 0;
+        padding: 0;
+        text-decoration: none !important;
+    }
+    ol.post-ol li em:hover
+    {
+        text-decoration: underline;
+    }
+    
+    .post-item
+    {
+        height: auto !important;
+        display: inline-block;
+    }
+    
+    .post
+    {
+        min-height: 35px;
+        display: inline-block;
+        padding: 0px;
+        margin: 0px;
+    }
+    
+    .post-img
+    {
+        float: left;
+        width: 35px;
+        height: 30px;
+        display: inline-block;
+    }
+    
+    .poster-image
+    {
+        width: 30px !important;
+        height: 30px !important;
+        border: 1px solid #fff;
+    }
+    
+    .post-content-body
+    {
+        float: left;
+        display: inline-block;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .content
+    {
+        width: 100%;
+        display: list-item;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .content-time
+    {
+    }
+    
+    .content-links
+    {
+    }
+    
+    .content-action
+    {
+        display: inline;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .post-comments-container
+    {
+        height: auto !important;
+        width: 518px !important;
+        padding: 0px 40px;
+    }
+    
+    .comment-pointer
+    {
+        margin-top: 10px !important;
+        padding: 0 0 0 20px !important;
+        position: relative;
+    }
+    
+    .comment-pointer-icon
+    {
+        background-position: 0 -3513px !important;
+        height: 5px !important;
+        width: 9px !important;
+    }
+    
+    .comment
+    {
+    }
+    
+    .links
+    {
+        display: inline-block;
+        margin: 0px;
+        padding: 0px;
+        cursor: pointer;
+        text-decoration: underline !important;
+    }
+    
+    .links a:link
+    {
+        color: #034af3;
+    }
+    .links a:visited
+    {
+        color: #505abc;
+    }
+    
+    .links a:hover
+    {
+        color: #1d60ff;
+    }
+    .links a:active
+    {
+        color: #12eb87;
+    }
+    
+    .post-comment
+    {
+        display: inline-block;
+        background-color: #fff;
+        border-bottom: 1px solid #DDDDDD;
+        margin: 0 0 2px;
+        padding: 5px;
+        height: auto !important;
+        width: 508px !important;
+    }
+    
+    .post-comment-box
+    {
+        width: 502px !important;
+        height: 15px !important;
+        border: 1px solid #CCCCCC !important;
+        color: #696969 !important;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        font-size: 0.8em !important;
+        padding: 2px !important;
+    }
+    
+    .post-comment-list
+    {
+    }
+    
+    .comment-ol
+    {
+    }
+    
+    ol.comment-ol
+    {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    ol.comment-ol li
+    {
+        border-bottom: 1px solid #DDDDDD;
+        border-left: none !important;
+        border-top: none !important;
+        border-right: none !important;
+        background-color: #FFFFFF;
+        color: #003a50;
+        padding: 5px;
+        outline: none;
+        margin: 0 0 2px;
+        min-height: 35px;
+    }
+    
+    ol.comment-ol li p
+    {
+        padding: 5px 5px 5 5px;
+        margin: 0;
+    }
+    ol.comment-ol li span
+    {
+        font-size: 12px;
+        width: auto;
+        background: transparent;
+        opacity: 1.7;
+        margin: 0;
+        padding: 5px 10px 0px 10px;
+    }
+    
+    .post-comment-item
+    {
+    }
+    
+    .comment
+    {
+        display: inline-block;
+        padding: 0px;
+        margin: 0px;
+    }
+    
+    .comment-img
+    {
+        float: left;
+        width: 35px;
+        height: 30px;
+        display: inline-block;
+    }
+    
+    .commenter-image
+    {
+        width: 30px !important;
+        height: 30px !important;
+        border: 1px solid #ddd;
+    }
+    
+    .comment-content
+    {
+        float: left;
+        height: 30px;
+        display: inline-block;
+        margin: 0px;
+        padding: 0px;
+    }
+    #post-type
+    {
+        display: inline-block;
+    }
+    #post-share
+    {
+        float: left;
+        padding: 0px;
+        margin-right: 5px;
+    }
+    
+    #post-share-with
+    {
+        float: left;
+        padding: 0px;
+        margin-left: 5px;
+    }
+    
+    #postSelectType
+    {
+    }
+    
+    #postSelectPerson
+    {
+    }
+    
+    .post-event-datetime
+    {
+        padding: 0px;
+        margin: 5px 0px 0px 0px;
+    }
+    
+    .post-event-venue
+    {
+        padding: 0px;
+        margin: 5px 0px 0px 0px;
+    }
+    
+    .post-event-note
+    {
+        padding: 0px;
+        margin: 5px 0px 0px 0px;
+    }
+    
+    .post-event-venue-text
+    {
+        border: 1px solid #CCCCCC !important;
+        color: #696969 !important;
+        font-size: 14px !important;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        height: 12px !important;
+        padding: 5px !important;
+        width: 600px !important;
+    }
+    
+    .post-event-note-textarea
+    {
+        border: 1px solid #CCCCCC !important;
+        color: #696969 !important;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        font-size: 14px !important;
+        height: 25px !important;
+        margin: 0 !important;
+        min-height: 25px !important;
+        overflow: hidden;
+        padding: 5px !important;
+        resize: none;
+        width: 600px !important;
+    }
+    .post-event-month
+    {
+    }
+    
+    .post-event-date
+    {
+    }
+    
+    .post-event-time
+    {
+    }
+    
+    .post-event-duration
+    {
+    }
+    
+    .post-event-select
+    {
+        border: 1px solid #CCCCCC !important;
+        width: auto !important;
+        height: 24px;
+        padding: 0px !important;
+        color: #444 !important;
+        font-size: 12px/21px !important;
+        background-color: #E3E8EA;
+        margin-right: 5px;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        font-size: 15px !important;
+    }
+    
+    .post-select-type
+    {
+        border: 1px solid #CCCCCC !important;
+        width: auto !important;
+        height: 24px;
+        padding: 0px !important;
+        color: #444 !important;
+        font-size: 12px/21px !important;
+        background-color: #E3E8EA;
+        margin-left: 5px;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        font-size: 15px !important;
+    }
+    
+    .post-poll-all-answer
+    {
+        padding: 0px;
+        margin: 5px 0px 0px 0px;
+    }
+    
+    .post-poll-answer
+    {
+        padding: 0px;
+        margin: 5px 0px 0px 0px;
+    }
+    
+    .post-poll-answer-text
+    {
+        border: 1px solid #CCCCCC !important;
+        color: #696969 !important;
+        font-size: 14px !important;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        height: 12px !important;
+        padding: 5px !important;
+        width: 400px !important;
+    }
+    
+    .pollAnswerFocus
+    {
+        border: 1px solid #CCCCCC !important;
+        color: #696969 !important;
+        font-size: 14px !important;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        height: 12px !important;
+        padding: 5px !important;
+        width: 400px !important;
+    }
+    
+    .pollAnswerBlur
+    {
+        border: 1px solid #CCCCCC !important;
+        color: #696969 !important;
+        font-size: 14px !important;
+        font-family: "Trebuchet MS" ,Verdana,Helvetica,Sans-Serif !important;
+        height: 12px !important;
+        padding: 5px !important;
+        width: 400px !important;
+    }
+    .post-container
+    {
+        height: auto !important;
+        width: auto !important;
+    }
+    
+    .block-inline
+    {
+        display: inline-block;
+    }
+    
+    .block-list
+    {
+        display: table;
+    }
+    
+    .icon-inline
+    {
+        bottom: 0;
+        position: absolute;
+    }
+    
+    .word-break
+    {
+        word-wrap: break-word;
+    }
+    
+    .post-like-container
+    {
+        background-color: #fff;
+        border-bottom: 1px solid #DDDDDD;
+        margin: 0 0 2px;
+        padding: 5px;
+    }
+    
+    .smill-icon
+    {
+    }
+    
+    .likes-text
+    {
+    }
+    
+    .post-show-comments-container
+    {
+        height: auto !important;
+        width: 508px !important;
+        background-color: #FFFFFF;
+        border-bottom: 1px solid #DDDDDD;
+        display: inline-block;
+        margin: 0 0 2px;
+        padding: 5px;
+    }
+    
+    .show-older-comments
+    {
+        color: #003A50 !important;
+        font-size: 12px !important;
+        opacity: 1.7 !important;
+    }
+    
+    .post-comments-body
+    {
+        height: auto !important;
+        width: auto !important;
+    }
+    
+    .normal
+    {
+    }
+    
+    .user-name
+    {
+        font-size: 12px !important;
+        font-weight: bold;
+        text-decoration: none !important;
+    }
+    
+    .question-img
+    {
+    }
+    
+    .post-question-img
+    {
+        background: url("../Content/images/post-question.png") no-repeat scroll 0 0 transparent !important;
+        background-position: 0 -4187px;
+        height: 16px !important;
+        width: 16px !important;
+        margin: 0px 5px 0px 0px !important;
+        padding: 0px !important;
+        float: left;
+    }
+    
+    .question-text
+    {
+        font-weight: bold;
+    }
+    
+    .update-text
+    {
+        font-weight: bold;
+    }
+    
+    .post-poll-img
+    {
+        background: url("../Content/images/post-poll.png") no-repeat scroll 0 0 transparent !important;
+        float: left;
+        height: 16px !important;
+        margin: 0 5px 0 0 !important;
+        padding: 0 !important;
+        width: 16px !important;
+    }
+    
+    .post-event-img
+    {
+        background: url("../Content/images/post-event.png") no-repeat scroll 0 0 transparent !important;
+        float: left !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        width: 40px !important;
+        height: 50px !important;
+    }
+    
+    .post-poll-answer-items
+    {
+    }
+    
+    ul.poll-answer
+    {
+        list-style: none;
+        margin: 0px 0px 0px 22px;
+        padding: 0px;
+    }
+    ul.poll-answer li
+    {
+        border: none !important;
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+    
+    .poll-answer-text
+    {
+    }
+    
+    .poll-answer-vote-rslt
+    {
+        width: auto !important;
+        height: 15px !important;
+        display: inline-block !important;
+    }
+    
+    .poll-answer-vote-rslt-display
+    {
+        background-color: #5C87B2;
+        height: 10px !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        float: left;
+    }
+    
+    .poll-options
+    {
+    }
+    
+    .poll-count
+    {
+    }
+    
+    .poll-action
+    {
+    }
+    
+    .event-datails
+    {
+        float: left;
+    }
+    
+    .event-text
+    {
+        font-size: 13px !important;
+        font-weight: bold;
+    }
+    
+    .poll-content
+    {
+        display: inline-block;
+        margin: 0px 0px 2px 0px !important;
+    }
+    
+    .poll-text
+    {
+        font-weight: bold;
+    }
+    
+    .event-venue
+    {
+    }
+    
+    .event-time
+    {
+    }
+    
+    .event-duration
+    {
+    }
+    
+    .event-note
+    {
+    }
+    
+    .event-attend
+    {
+    }
+    .event-attend-text
+    {
+    }
+    
+    .question-content
+    {
+        display: inline-block !important;
+        margin-bottom: 2px !important;
+    }
+    
+    .event-content
+    {
+        display: inline-block !important;
+        margin-bottom: 2px !important;
+    }
+    
+    .event-month
+    {
+        color: #fff !important;
+        font-size: 10px !important;
+        font-weight: bold !important;
+        padding: 1px 0px 0px 8px !important;
+    }
+    
+    .event-date
+    {
+        color: #000 !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        padding: 2px 0 0 10px !important;
+    }
+    
+    .poll-answer-rdo-list
+    {
+    }
+    
+    .poll-answer-rdo
+    {
+        padding: 0px;
+        margin: 2px 5px 5px 0px;
+    }
+    
+    .poll-answer-label
+    {
+        padding: 0px;
+        margin: 0px;
+    }
+    .poll-vote-btn
+    {
+        padding: 0px;
+        margin: 5px 0px 0px 25px;
+        display: list-item;
+    }
+    .poll-go-result
+    {
+        padding: 0px;
+        margin: 10px 0px 2px 0px;
+        display: list-item;
+    }
+    .poll-vote-button
+    {
+        background-color: #5C87B2 !important;
+        background-image: -moz-linear-gradient(center top , #5C87B2 0%, #5C87B2 100%);
+        border: 1px solid #1D6291;
+        border-radius: 2px 2px 2px 2px !important;
+        color: #FFFFFF !important;
+        cursor: pointer !important;
+        display: inline-block !important;
+        font: bold 12px/1.5 !important;
+        padding: 1px 10px !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+        word-wrap: break-word !important;
+    }
+    
+    .poll-vote-result
+    {
+    }
+    
+    .poll-answer-vote-percent-value
+    {
+        float: right;
+    }
+    
+    .plan-span
+    {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+    
+    .event-attend-dialog
+    {
+        width: 420px !important;
+        min-height: 180px !important;
+        display: inline-block !important;
+    }
+    
+    .event-content-left
+    {
+    }
+    
+    .event-content-middel
+    {
+        margin: 0px;
+        padding: 0px 5px;
+    }
+    
+    .event-content-right
+    {
+    }
+    
+    .event-attend-option
+    {
+    }
+    
+    .event-type
+    {
+    }
+    
+    .update-comments
+    {
+    }
+    
+    .question-comments
+    {
+    }
+    
+    .event-comments
+    {
+    }
+    
+    .poll-comments
+    {
+    }
+    
+    .event-attend-person
+    {
+        display: table;
+        margin: 0px;
+        padding: 0px 0px 5px 0px;
+    }
+    
+    .event-attend-person-img
+    {
+        display: table;
+        margin: 0px;
+        padding: 0px 0px 5px 0px;
+    }
+    
+    .loader
+    {
+        background-color: #FFFFFF;
+        text-align: left;
+        display: none;
+    }
+    .loading
+    {
+        padding: 0px;
+        margin: 0px;
+    }
+    .com-loader
+    {
+        background-color: #FFFFFF !important;
+        text-align: right !important;
+        height: auto !important;
+        padding: 0px;
+        width: 518px !important;
+        display: none;
+    }
+    .vote-loader
+    {
+        text-align: right !important;
+        padding: 0px;
+        display: none;
+    }
+</style>
+<h2>
+    Post page</h2>
+<div id="wall-post">
+    <div id="post-area-content">
+        <div id="post-type">
+            <div id="post-share">
+                <span>Share</span> <span>
+                    <select id="postSelectType" class="post-select-type">
+                        <option value="1" selected="selected" onclick="PostUpdateForm(this.value)">an update</option>
+                        <option value="2" onclick="PostQuestionForm(this.value)">a question</option>
+                        <option value="3" onclick="PostEventForm(this.value)">an event</option>
+                        <option value="4" onclick="PostPollForm(this.value)">a poll</option>
+                    </select></span>
+            </div>
+            <div id="post-share-with">
+                <span>with</span><span><select id="postSelectPerson" class="post-select-type">
+                    <option value="1" selected="selected">select one</option>
+                </select></span>
+            </div>
+        </div>
+        <div id="postArea">
+            <div id="post-update-form">
+                <div class="post-content-textarea">
+                    <textarea name="postUpdateBox" id="postUpdateBox" class="post-textarea" placeholder="What are you doing on?"
+                        onclick="UpdatePostBoxFocus(this.id)" onkeyup="ButtonEnable('postButton', this)"></textarea>
+                </div>
+                <div class="post-content-button">
+                    <input type="button" name="postButton" id="postButton" class="postdisabledbtn" disabled="disabled"
+                        onclick="PostUpdate('postUpdateBox', 'postButton')" value="Update" />
+                </div>
+            </div>
+        </div>
+        <div id="loader" class="loader">
+        </div>
+    </div>
+    <div id="post-list">
+        <ol id="currentPost" class="post-ol">
+        </ol>
+        @if (Model != null)
+        {
+            foreach (var item in Model.ToList())
+            {
+
+                if (item.PostTypeId == 1)
+                {
+            <div class="post">
+                <ol class="post-ol">
+                    <li id="post-@item.PostId" class="post-item">
+                        <div class="post-container block-inline">
+                            <div class="post-img">
+                                <img src="../../Content/images/profile.png" class="poster-image" alt="image" />
+                            </div>
+                            <div class="post-content-body">
+                                <div class="content">
+                                    <div class="block-list">
+                                        <a class="user-name links" href="#">@item.User.FullName</a>
+                                    </div>
+                                    <div class="block-list word-break">
+                                        <span class="block-list word-break update-text">@item.Content</span>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <span class="content-time">@item.CreatedDate.ToString("dd MMMM, yyyy") at @item.CreatedDate.ToString("hh:mm tt")</span><span
+                                        class="content-links"><span class="content-action"> <span><a class="links" onclick="CommentLinkFocus(@item.PostId)">
+                                            Comment</a></span>
+                                            @{
+                    var myUdLike = from liks in item.LikeStatues.ToList()
+                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                   select usr;
+                    if (myUdLike.Count() == 0)
+                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Like</a></span>
+                    }
+                    else
+                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Unlike</a></span>
+                    }
+                                                
+                                            }
+                                            <span><a class="links">More</a></span> </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-comments-container block-inline">
+                            <div class="comment-pointer">
+                                <span class="comment-pointer-icon icon-inline"></span>
+                            </div>
+                            @if (item.LikeStatues.Count() > 0)
+                            {
+                                <div id="postLike-@item.PostId">
+                                    <div class="post-like-container">
+                                        <span class="smill-icon icon-inline"></span><span class="likes-text"><span class="plan-span">
+                                            Like by</span>
+                                            @foreach (var itemLike in item.LikeStatues.ToList())
+                                            {
+                                                var myLike = itemLike.Users.Where(x => x.UserName == logUser).FirstOrDefault();
+
+                                                if (myLike != null)
+                                                {
+                                                <span class="plan-span"><a class="user-name links" title="@myLike.UserName" href="/Account/ProfileInfo?content=@myLike.UserName">
+                                                    you</a> </span>
+                                                }
+
+                                                foreach (var itemLksUser in itemLike.Users.ToList())
+                                                {
+                                                    if (logUser != itemLksUser.UserName)
+                                                    {
+                                                    
+                                                <span class="plan-span"><a class="user-name links" title="@itemLksUser.FullName" href="/Account/ProfileInfo?content=@itemLksUser.UserName">@itemLksUser.FullName</a>
+                                                </span>
+                                                    }
+
+                                                }
+
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="postLike-@item.PostId">
+                                </div>
+                            }
+                            @if (item.PostComments.Count() > 0)
+                            {
+                                
+                                <div id="postShowComment-@item.PostId">
+                                    <div class="post-show-comments-container">
+                                        <span class="normal"></span><a class="show-older-comments links" href="#" title="show comments">
+                                            Show @item.TotalComments older comments »</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="postShowComment-@item.PostId">
+                                </div>
+                            }
+                            <div class="post-comments-body">
+                                <div class="post-comment-list">
+                                    @if (item.PostComments.Count() > 0)
+                                    {
+
+                                        PostSample.Models.PostComment pComReply = new PostSample.Models.PostComment();
+                                        
+                                        <ol class="comment-ol update-comments">
+                                            @foreach (var itemComment in item.PostComments.ToList())
+                                            {
+                                                <li class="post-comment-@itemComment.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@itemComment.User.FullName</a>
+                                                                    : </span><span class="word-break plan-span">@itemComment.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@itemComment.CreatedDate.ToString("dd MMMM, yyyy") at @itemComment.CreatedDate.ToString("hh:mm tt")</span><span
+                                                                    class="content-links"><span class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId, @itemComment.CommentId)">
+                                                                        Reply</a></span>
+                                                                        @{
+                                                                            
+                                                var myUdChkUsrlk = from liks in itemComment.LikeStatues.ToList()
+                                                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                   select usr;
+
+                                                if (myUdChkUsrlk.Count() == 0)
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                Like</a></span>
+                                                }
+                                                else
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                UnLike</a></span>
+                                                }             
+                                                               
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+
+                                                foreach (var itemInn in itemComment.PostCommentChilds.ToList())
+                                                {
+                                                    var pCom = itemInn;
+                                                    bool IsLast = false;
+                                                    for (; pCom.PostCommentChilds.Count() > 0 || pCom.PostCommentChilds.Count() == 0; )
+                                                    {
+                                                        if (!IsLast)
+                                                        {
+                                                            pComReply = pCom;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            pCom = pCom.PostCommentChilds.FirstOrDefault();
+                                                            pComReply = pCom;
+
+                                                        }
+                                                        
+                                                <li class="comment-in-replay-@pComReply.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@pComReply.User.FullName</a>
+                                                                    in replay to <a class="user-name links" href="#">@pComReply.PerantPostComment.User.FullName</a>
+                                                                    : </span><span class="word-break
+                                                    plan-span">@pComReply.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@pComReply.CreatedDate.ToString("dd MMMM, yyyy")
+                                                                    at @pComReply.CreatedDate.ToString("hh:mm tt")</span><span class="content-links"><span
+                                                                        class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId,
+                                                    @pComReply.CommentId)">Reply</a></span>
+                                                                        @{
+                                                        var myUdChkUsrlkChild = from liks in pComReply.LikeStatues.ToList()
+                                                                                from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                                select usr;
+
+                                                        if (myUdChkUsrlkChild.Count() == 0)
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                        this)">Like</a></span>
+                                                        }
+                                                        else
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                    this)">UnLike</a></span>
+                                                        }
+                                                        
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                
+                                                        if (pCom.PostCommentChilds.Count() == 0)
+                                                        {
+                                                            IsLast = true;
+                                                        }
+
+                                                        if (IsLast)
+                                                        {
+                                                            break;
+                                                        }
+
+                                                        foreach (var itemRepInn in pCom.PostCommentChilds)
+                                                        {
+                                                            if (itemRepInn.PostCommentChilds.Count() > 0)
+                                                            {
+                                                                pCom = itemRepInn;
+                                                            }
+                                                            else
+                                                            {
+                                                                IsLast = true;
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                }//item inner
+                                            }
+                                        </ol>
+                                    }
+                                    <ol class="postCurrentComment-@item.PostId comment-ol">
+                                    </ol>
+                                </div>
+                            </div>
+                            <div id="comLoad-@item.PostId" class="com-loader block-inline">
+                            </div>
+                            <div class="post-comment">
+                                <input type="text" name="postCommentBox-@item.PostId" id="postCommentBox-@item.PostId" class="post-comment-box" value="Write a comment..." onfocus="CommentBoxFocus(this.id)" onblur="CommentBoxOnBlur(this)" onkeypress="EnterKeyCommentSubmit(this.id, @item.PostId, this.value, event)"   />
+                                <input type="hidden" name="pComIdHd" id="pComIdHd-@item.PostId" value="" />
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+                }
+                else if (item.PostTypeId == 2)
+                {
+            <div class="post">
+                <ol class="post-ol">
+                    <li id="post-@item.PostId" class="post-item">
+                        <div class="post-container block-inline">
+                            <div class="post-img">
+                                <img src="../../Content/images/profile.png" class="poster-image" alt="image" />
+                            </div>
+                            <div class="post-content-body">
+                                <div class="content">
+                                    <div class="question-content">
+                                        <div class="block-list">
+                                            <a class="user-name links" href="#">@item.User.FullName</a>
+                                        </div>
+                                        <div class="block-list word-break">
+                                            <span class="post-question-img">&nbsp;</span><span class="word-break question-text">@item.Content</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <span class="content-time">@item.CreatedDate.ToString("dd MMMM, yyyy") at @item.CreatedDate.ToString("hh:mm tt")</span><span
+                                        class="content-links"><span class="content-action"> <span><a class="links" onclick="CommentLinkFocus(@item.PostId)">
+                                            Answer</a></span>
+                                            @{
+                                                
+                    var myQtLike = from liks in item.LikeStatues.ToList()
+                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                   select usr;
+                    if (myQtLike.Count() == 0)
+                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Like</a></span>
+                    }
+                    else
+                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Unlike</a></span>
+                    }    
+                                                
+                                            }
+                                            <span><a class="links">More</a></span> </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-comments-container block-inline">
+                            <div class="comment-pointer">
+                                <span class="comment-pointer-icon icon-inline"></span>
+                            </div>
+                            @if (item.LikeStatues.Count() > 0)
+                            {
+                                <div id="postLike-@item.PostId">
+                                    <div class="post-like-container">
+                                        <span class="smill-icon icon-inline"></span><span class="likes-text"><span class="plan-span">
+                                            Like by</span>
+                                            @foreach (var itemLike in item.LikeStatues.ToList())
+                                            {
+                                                var myLike = itemLike.Users.Where(x => x.UserName == logUser).FirstOrDefault();
+
+                                                if (myLike != null)
+                                                {
+                                                <span class="plan-span"><a class="user-name links" title="@myLike.UserName" href="/Account/ProfileInfo?content=@myLike.UserName">
+                                                    you</a> </span>
+                                                }
+
+                                                foreach (var itemLksUser in itemLike.Users.ToList())
+                                                {
+                                                    if (logUser != itemLksUser.UserName)
+                                                    {
+                                                    
+                                                <span class="plan-span"><a class="user-name links" title="@itemLksUser.FullName" href="/Account/ProfileInfo?content=@itemLksUser.UserName">@itemLksUser.FullName</a>
+                                                </span>
+                                                    }
+
+                                                }
+
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="postLike-@item.PostId">
+                                </div> 
+                            }
+                            @if (item.PostComments.Count() > 0)
+                            {
+                                                            
+                                <div id="postShowComment-@item.PostId">
+                                    <div class="post-show-comments-container">
+                                        <span class="normal"></span><a class="show-older-comments links" href="#" title="show comments">
+                                            Show @item.TotalComments older comments »</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="postShowComment-@item.PostId">
+                                </div>
+                            }
+                            <div class="post-comments-body">
+                                <div class="post-comment-list">
+                                    @if (item.PostComments.Count() > 0)
+                                    {
+
+
+                                        PostSample.Models.PostComment pComReply = new PostSample.Models.PostComment();
+                                        
+                                        <ol class="comment-ol question-comments">
+                                            @foreach (var itemComment in item.PostComments.ToList())
+                                            {
+                                                <li class="post-comment-@itemComment.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@itemComment.User.FullName</a>
+                                                                    : </span><span class="word-break plan-span">@itemComment.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@itemComment.CreatedDate.ToString("dd MMMM, yyyy") at @itemComment.CreatedDate.ToString("hh:mm tt")</span><span
+                                                                    class="content-links"><span class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId, @itemComment.CommentId)">
+                                                                        Reply</a></span>
+                                                                        @{
+                                                                            
+                                                                            
+                                                var myQsChkUsrlk = from liks in itemComment.LikeStatues.ToList()
+                                                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                   select usr;
+
+                                                if (myQsChkUsrlk.Count() == 0)
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                Like</a></span>
+                                                }
+                                                else
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                UnLike</a></span>
+                                                }
+                                                                            
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+
+                                                foreach (var itemInn in itemComment.PostCommentChilds.ToList())
+                                                {
+                                                    var pCom = itemInn;
+                                                    bool IsLast = false;
+                                                    for (; pCom.PostCommentChilds.Count() > 0 || pCom.PostCommentChilds.Count() == 0; )
+                                                    {
+                                                        if (!IsLast)
+                                                        {
+                                                            pComReply = pCom;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            pCom = pCom.PostCommentChilds.FirstOrDefault();
+                                                            pComReply = pCom;
+
+                                                        }
+                                                <li class="comment-in-replay-@pComReply.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@pComReply.User.FullName</a>
+                                                                    in replay to <a class="user-name links" href="#">@pComReply.PerantPostComment.User.FullName</a>
+                                                                    : </span><span class="word-break
+                                                    plan-span">@pComReply.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@pComReply.CreatedDate.ToString("dd MMMM, yyyy")
+                                                                    at @pComReply.CreatedDate.ToString("hh:mm tt")</span><span class="content-links"><span
+                                                                        class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId,
+                                                    @pComReply.CommentId)">Reply</a></span>
+                                                                        @{
+                                                        var myQsChkUsrlkChild = from liks in pComReply.LikeStatues.ToList()
+                                                                                from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                                select usr;
+
+                                                        if (myQsChkUsrlkChild.Count() == 0)
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                        this)">Like</a></span>
+                                                        }
+                                                        else
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                    this)">UnLike</a></span>
+                                                        }
+                                                        
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                        if (pCom.PostCommentChilds.Count() == 0)
+                                                        {
+                                                            IsLast = true;
+                                                        }
+
+                                                        if (IsLast)
+                                                        {
+                                                            break;
+                                                        }
+
+                                                        foreach (var itemRepInn in pCom.PostCommentChilds)
+                                                        {
+                                                            if (itemRepInn.PostCommentChilds.Count() > 0)
+                                                            {
+                                                                pCom = itemRepInn;
+                                                            }
+                                                            else
+                                                            {
+                                                                IsLast = true;
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                }
+                                            }
+                                        </ol>
+
+                                    }
+                                    <ol class="postCurrentComment-@item.PostId comment-ol">
+                                    </ol>
+                                </div>
+                            </div>
+                            <div id="comLoad-@item.PostId" class="com-loader block-inline">
+                            </div>
+                            <div class="post-comment">
+                                <input type="text" name="postCommentBox-@item.PostId" id="postCommentBox-@item.PostId" class="post-comment-box" value="Write a comment..." onfocus="CommentBoxFocus(this.id)" onblur="CommentBoxOnBlur(this)" onkeypress="EnterKeyCommentSubmit(this.id, @item.PostId, this.value, event)"   />
+                                <input type="hidden" name="pComIdHd" id="pComIdHd-@item.PostId" value="" />
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+                }
+                else if (item.PostTypeId == 3)
+                {
+            <div class="post">
+                <ol class="post-ol">
+                    <li id="post-@item.PostId" class="post-item">
+                        <div class="post-container block-inline">
+                            <div class="post-img">
+                                <img src="../../Content/images/profile.png" class="poster-image" alt="image" />
+                            </div>
+                            <div class="post-content-body">
+                                <div class="content">
+                                    <div class="block-list">
+                                        <a class="user-name links" href="#">@item.User.FullName</a>
+                                    </div>
+                                    <div class="block-list word-break">
+                                        <div class="event-content">
+                                            <div class="post-event-img">
+                                                <span class="block-list event-month">@item.EventPost.EventDateTime.ToString("MMM")</span><span
+                                                    class="block-list event-date">@item.EventPost.EventDateTime.ToString("dd")</span>
+                                            </div>
+                                            <div class="block-list word-break event-datails">
+                                                <span class="block-list word-break event-text">@item.Content</span> <span class="block-list word-break event-time">@item.EventPost.EventDateTime.ToString("F")</span>
+                                                <span class="block-list word-break event-duration">@item.EventPost.EventDuration</span>
+                                                <span class="block-list word-break event-venue">@item.EventPost.EventVenue</span>
+                                                <span class="block-list word-break event-note">@item.EventPost.EventNote</span>
+                                            </div>
+                                        </div>
+                                        <div class="block-list word-break event-attend">
+                                            @{
+                    bool isUsrAttend = false;
+
+                    if (item.EventPost.EventAttendPersons.Count() > 0)
+                    {
+
+                        foreach (var iEvtAttedPerson in item.EventPost.EventAttendPersons.ToList())
+                        {
+                            if (logUser == iEvtAttedPerson.User.UserName)
+                            {
+                                isUsrAttend = true;
+                                                <span class="block-list word-break event-attend-text"><a class="links" onclick="EventAttend(@item.PostId,
+                                                        @item.EventPostId)">@iEvtAttedPerson.EventAttendType.AttendTypeName</a>
+                                                </span>
+                            }
+
+                        }
+
+                    }
+                    if (isUsrAttend == false)
+                    {
+                                                <span class="block-list word-break event-attend-text">You haven't responded yet. <a class="links" onclick="EventAttend(@item.PostId, @item.EventPostId)">
+                                                    RSVP</a> </span>
+                    }
+                                                
+                                            }
+                                        </div>
+                                        <div id="eventAttan-@item.EventPostId" title="@item.Content">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <span class="content-time">@item.CreatedDate.ToString("dd MMMM, yyyy") at @item.CreatedDate.ToString("hh:mm tt")</span><span
+                                        class="content-links"><span class="content-action"> <span><a class="links" onclick="CommentLinkFocus(@item.PostId)">
+                                            Comment</a></span>
+                                            @{
+                    var myEvLike = from liks in item.LikeStatues.ToList()
+                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                   select usr;
+                    if (myEvLike.Count() == 0)
+                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Like</a></span>
+                    }
+                    else
+                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Unlike</a></span>
+                    }          
+                                                
+                                                
+                                            }
+                                            <span><a class="links">More</a></span> </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-comments-container block-inline">
+                            <div class="comment-pointer">
+                                <span class="comment-pointer-icon icon-inline"></span>
+                            </div>
+                            @if (item.LikeStatues.Count() > 0)
+                            {
+                                <div id="postLike-@item.PostId">
+                                    <div class="post-like-container">
+                                        <span class="smill-icon icon-inline"></span><span class="likes-text"><span class="plan-span">
+                                            Like by</span>
+                                            @foreach (var itemLike in item.LikeStatues.ToList())
+                                            {
+                                                var myLike = itemLike.Users.Where(x => x.UserName == logUser).FirstOrDefault();
+
+                                                if (myLike != null)
+                                                {
+                                                <span class="plan-span"><a class="user-name links" title="@myLike.UserName" href="/Account/ProfileInfo?content=@myLike.UserName">
+                                                    you</a> </span>
+                                                }
+
+                                                foreach (var itemLksUser in itemLike.Users.ToList())
+                                                {
+                                                    if (logUser != itemLksUser.UserName)
+                                                    {
+                                                    
+                                                <span class="plan-span"><a class="user-name links" title="@itemLksUser.FullName" href="/Account/ProfileInfo?content=@itemLksUser.UserName">@itemLksUser.FullName</a>
+                                                </span>
+                                                    }
+
+                                                }
+
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="postLike-@item.PostId">
+                                </div>
+                            }
+                            @if (item.PostComments.Count() > 0)
+                            {
+                                
+                                <div id="postShowComment-@item.PostId">
+                                    <div class="post-show-comments-container">
+                                        <span class="normal"></span><a class="show-older-comments links" href="#" title="show comments">
+                                            Show @item.TotalComments older comments »</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="postShowComment-@item.PostId">
+                                </div>
+                            }
+                            <div class="post-comments-body">
+                                <div class="post-comment-list">
+                                    @if (item.PostComments.Count() > 0)
+                                    {
+                                        PostSample.Models.PostComment pComReply = new PostSample.Models.PostComment();
+                                        
+                                        <ol class="comment-ol event-comments">
+                                            @foreach (var itemComment in item.PostComments.ToList())
+                                            {
+                                                <li class="post-comment-@itemComment.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@itemComment.User.FullName</a>
+                                                                    : </span><span class="word-break plan-span">@itemComment.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@itemComment.CreatedDate.ToString("dd MMMM, yyyy") at @itemComment.CreatedDate.ToString("hh:mm tt")</span><span
+                                                                    class="content-links"><span class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId, @itemComment.CommentId)">
+                                                                        Reply</a></span>
+                                                                        @{
+                                                var myEvChkUsrlk = from liks in itemComment.LikeStatues.ToList()
+                                                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                   select usr;
+
+                                                if (myEvChkUsrlk.Count() == 0)
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                Like</a></span>
+                                                }
+                                                else
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                UnLike</a></span>
+                                                }
+                                                                            
+                                                                            
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+
+                                                foreach (var itemInn in itemComment.PostCommentChilds.ToList())
+                                                {
+                                                    var pCom = itemInn;
+                                                    bool IsLast = false;
+                                                    for (; pCom.PostCommentChilds.Count() > 0 || pCom.PostCommentChilds.Count() == 0; )
+                                                    {
+                                                        if (!IsLast)
+                                                        {
+                                                            pComReply = pCom;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            pCom = pCom.PostCommentChilds.FirstOrDefault();
+                                                            pComReply = pCom;
+
+                                                        }
+                                                <li class="comment-in-replay-@pComReply.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@pComReply.User.FullName</a>
+                                                                    in replay to <a class="user-name links" href="#">@pComReply.PerantPostComment.User.FullName</a>
+                                                                    : </span><span class="word-break
+                                                    plan-span">@pComReply.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@pComReply.CreatedDate.ToString("dd MMMM, yyyy")
+                                                                    at @pComReply.CreatedDate.ToString("hh:mm tt")</span><span class="content-links"><span
+                                                                        class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId,
+                                                    @pComReply.CommentId)">Reply</a></span>
+                                                                        @{
+                                                        var myEvChkUsrlkChild = from liks in pComReply.LikeStatues.ToList()
+                                                                                from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                                select usr;
+
+                                                        if (myEvChkUsrlkChild.Count() == 0)
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                        this)">Like</a></span>
+                                                        }
+                                                        else
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                    this)">UnLike</a></span>
+                                                        }
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                
+                                                        if (pCom.PostCommentChilds.Count() == 0)
+                                                        {
+                                                            IsLast = true;
+                                                        }
+
+                                                        if (IsLast)
+                                                        {
+                                                            break;
+                                                        }
+
+                                                        foreach (var itemRepInn in pCom.PostCommentChilds)
+                                                        {
+                                                            if (itemRepInn.PostCommentChilds.Count() > 0)
+                                                            {
+                                                                pCom = itemRepInn;
+                                                            }
+                                                            else
+                                                            {
+                                                                IsLast = true;
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                }
+                                            }
+                                        </ol>
+                                        
+                                    }
+                                    <ol class="postCurrentComment-@item.PostId comment-ol">
+                                    </ol>
+                                </div>
+                            </div>
+                            <div id="comLoad-@item.PostId" class="com-loader block-inline">
+                            </div>
+                            <div class="post-comment">
+                                <input type="text" name="postCommentBox-@item.PostId" id="postCommentBox-@item.PostId" class="post-comment-box" value="Write a comment..." onfocus="CommentBoxFocus(this.id)" onblur="CommentBoxOnBlur(this)" onkeypress="EnterKeyCommentSubmit(this.id, @item.PostId, this.value, event)"   />
+                                <input type="hidden" name="pComIdHd" id="pComIdHd-@item.PostId" value="" />
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+                }
+                else if (item.PostTypeId == 4)
+                {
+            <div class="post">
+                <ol class="post-ol">
+                    <li id="post-@item.PostId" class="post-item">
+                        <div class="post-container block-inline">
+                            <div class="post-img">
+                                <img src="../../Content/images/profile.png" class="poster-image" alt="image" />
+                            </div>
+                            <div class="post-content-body">
+                                <div class="content">
+                                    <div class="block-list">
+                                        <a class="user-name links" href="#">@item.User.FullName</a>
+                                    </div>
+                                    <div class="block-list word-break">
+                                        <div class="poll-content">
+                                            <span class="post-poll-img">&nbsp;</span><span class="word-break poll-text">@item.Content</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="post-poll-answer-items">
+                                        <div id="postPollRslt-@item.PostId">
+                                            @{
+                                                
+                    bool isFound = false;
+
+                    if (item.PollPost.PollAnswers.Count() > 0)
+                    {
+                        var vAns = item.PollPost.PollAnswers.ToList();
+
+                        var vUsr = from ans in vAns
+                                   from usr in ans.Users.ToList()
+                                   select usr;
+
+                        if (vUsr.Count() > 0)
+                        {
+
+                            var tempUsr = from tempans in vAns
+                                          from tempusr in tempans.Users.Where(x => x.UserName == logUser)
+                                          select tempusr;
+
+                            if (tempUsr.Count() > 0)
+                            {
+                                isFound = true;
+                            }
+
+                        }
+                    }
+
+                                                <ul class="poll-answer">
+                                                    @foreach (var itemPostPollAnswer in item.PollPost.PollAnswers.ToList())
+                                                    {
+
+
+                                                        int totalvote = 0;
+                                                        int percent = 0;
+
+                                                        if (isFound == true)
+                                                        {
+                                                            totalvote = totalvote + item.PollPost.TotalVote;
+
+                                                            if (totalvote > 0 && itemPostPollAnswer.AnswerCount > 0)
+                                                            {
+                                                                percent = (Int32)(100 / (totalvote * itemPostPollAnswer.AnswerCount));
+                                                            }
+                                                            
+                                                        <li>
+                                                            <div class="block-list poll-answer-text">@itemPostPollAnswer.AnswerContent</div>
+                                                            <div class="poll-answer-vote-rslt">
+                                                                <div style="width: 200px !important;">
+                                                                    <span class="poll-answer-vote-rslt-display"  style="width:@percent% !important;">&nbsp;</span>
+                                                                </div>
+                                                                <div class="poll-answer-vote-percent-value">
+                                                                    @percent %
+                                                                </div>
+                                                            </div>
+                                                        </li> 
+                                                        }
+                                                        else
+                                                        {
+                                                        <li>
+                                                            <div class="block-list">
+                                                                <span class="poll-answer-rdo-list">
+                                                                    <input type="radio" name="pollAnswerRedioBtn" id="pollAnswerRedioBtn-@itemPostPollAnswer.Id" class="poll-answer-rdo" value="@itemPostPollAnswer.Id" />
+                                                                    <label class="poll-answer-label" for="pollAnswerRedioBtn-@itemPostPollAnswer.Id">@itemPostPollAnswer.AnswerContent
+                                                                    </label>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                        }
+
+                                                    }
+                                                </ul>
+                                            
+                                                
+                                                
+                                                    if (isFound == true)
+                                                    {
+                                                <div class="poll-options">
+                                                    <div class="poll-go-result">
+                                                        <span class="poll-count">@item.PollPost.TotalVote total votes </span><span class="poll-action">
+                                                            <a class="links" onclick="PollVoteOption(@item.PostId, @item.PollPost.Id)">Change vote</a></span><span
+                                                                class="poll-action"><a class="links" onclick="PollResultReload(@item.PostId, @item.PollPost.Id)">Reload</a></span></div>
+                                                </div>
+                                                    }
+                                                    else
+                                                    {
+                                                <div class="poll-options">
+                                                    <div class="poll-vote-btn">
+                                                        <input type="button" name="pollVote" id="pollVote-@item.PollPost.Id" class="poll-vote-button" onclick="PollVote('pollAnswerRedioBtn', @item.PollPost.Id, @item.PostId)" value="Vote" />
+                                                    </div>
+                                                    <div class="poll-go-result">
+                                                        <span class="poll-count">@item.PollPost.TotalVote total votes </span><span class="poll-action">
+                                                            <a class="links" onclick="PollResultReload(@item.PostId, @item.PollPost.Id)">Go to results</a></span>
+                                                    </div>
+                                                </div>
+                                                    }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="pstPoolVt-@item.PostId" class="vote-loader">
+                                </div>
+                                <div class="content">
+                                    <span class="content-time">@item.CreatedDate.ToString("dd MMMM, yyyy") at @item.CreatedDate.ToString("hh:mm tt")</span><span
+                                        class="content-links"><span class="content-action"> <span><a class="links" onclick="CommentLinkFocus(@item.PostId)">
+                                            Comment</a></span>
+                                            @{
+                                                    var myPlLike = from liks in item.LikeStatues.ToList()
+                                                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                   select usr;
+                                                    if (myPlLike.Count() == 0)
+                                                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Like</a></span>
+                                                    }
+                                                    else
+                                                    {
+                                                <span><a class="links" onclick="PostLike(@item.PostId, this)">Unlike</a></span>
+                                                    }
+                                                
+                                            }
+                                            <span><a class="links">More</a></span> </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-comments-container block-inline">
+                            <div class="comment-pointer">
+                                <span class="comment-pointer-icon icon-inline"></span>
+                            </div>
+                            @if (item.LikeStatues.Count() > 0)
+                            {
+                                <div id="postLike-@item.PostId">
+                                    <div class="post-like-container">
+                                        <span class="smill-icon icon-inline"></span><span class="likes-text"><span class="plan-span">
+                                            Like by</span>
+                                            @foreach (var itemLike in item.LikeStatues.ToList())
+                                            {
+                                                var myLike = itemLike.Users.Where(x => x.UserName == logUser).FirstOrDefault();
+
+                                                if (myLike != null)
+                                                {
+                                                <span class="plan-span"><a class="user-name links" title="@myLike.UserName" href="/Account/ProfileInfo?content=@myLike.UserName)">
+                                                    you</a> </span>
+                                                }
+
+                                                foreach (var itemLksUser in itemLike.Users.ToList())
+                                                {
+                                                    if (logUser != itemLksUser.UserName)
+                                                    {
+                                                    
+                                                <span class="plan-span"><a class="user-name links" title="@itemLksUser.FullName" href="/Account/ProfileInfo?content=@itemLksUser.UserName">@itemLksUser.FullName</a>
+                                                    , </span>
+                                                    }
+
+                                                }
+
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="postLike-@item.PostId">
+                                </div>
+                            }
+                            @if (item.PostComments.Count() > 0)
+                            {
+                                
+                                <div id="postShowComment-@item.PostId">
+                                    <div class="post-show-comments-container">
+                                        <span class="normal"></span><a class="show-older-comments
+                            links" href="#" title="show comments">Show @item.TotalComments older comments »</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            { 
+                                <div id="postShowComment-@item.PostId">
+                                </div>
+                            }
+                            <div class="post-comments-body">
+                                <div class="post-comment-list">
+                                    @if (item.PostComments.Count() > 0)
+                                    {
+                                        PostSample.Models.PostComment pComReply = new PostSample.Models.PostComment();
+                                        
+                                        <ol class="comment-ol poll-comments">
+                                            @foreach (var itemComment in item.PostComments.ToList())
+                                            {
+                                                <li class="post-comment-@itemComment.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@itemComment.User.FullName</a>
+                                                                    : </span><span class="word-break plan-span">@itemComment.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@itemComment.CreatedDate.ToString("dd MMMM, yyyy") at @itemComment.CreatedDate.ToString("hh:mm tt")</span><span
+                                                                    class="content-links"><span class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId, @itemComment.CommentId)">
+                                                                        Reply</a></span>
+                                                                        @{
+                                                var myPlChkUsrlk = from liks in itemComment.LikeStatues.ToList()
+                                                                   from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                   select usr;
+
+                                                if (myPlChkUsrlk.Count() == 0)
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                Like</a></span>
+                                                }
+                                                else
+                                                {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @itemComment.CommentId, this)">
+                                                                                UnLike</a></span>
+                                                }
+                                                                            
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+
+                                                foreach (var itemInn in itemComment.PostCommentChilds.ToList())
+                                                {
+                                                    var pCom = itemInn;
+                                                    bool IsLast = false;
+                                                    for (; pCom.PostCommentChilds.Count() > 0 || pCom.PostCommentChilds.Count() == 0; )
+                                                    {
+                                                        if (!IsLast)
+                                                        {
+                                                            pComReply = pCom;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            pCom = pCom.PostCommentChilds.FirstOrDefault();
+                                                            pComReply = pCom;
+
+                                                        }
+                                                <li class="comment-in-replay-@pComReply.CommentId post-comment-item">
+                                                    <div class="comment">
+                                                        <div class="comment-img">
+                                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="content">
+                                                                <span class="plan-span"><a class="user-name links" href="#">@pComReply.User.FullName</a>
+                                                                    in replay to <a class="user-name links" href="#">@pComReply.PerantPostComment.User.FullName</a>
+                                                                    : </span><span class="word-break
+                                                    plan-span">@pComReply.Content</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <span class="content-time">@pComReply.CreatedDate.ToString("dd MMMM, yyyy")
+                                                                    at @pComReply.CreatedDate.ToString("hh:mm tt")</span><span class="content-links"><span
+                                                                        class="content-action"> <span><a class="links" onclick="ReplayLinkFocus(@item.PostId,
+                                                    @pComReply.CommentId)">Reply</a></span>
+                                                                        @{
+                                                        var myPlChkUsrlkChild = from liks in pComReply.LikeStatues.ToList()
+                                                                                from usr in liks.Users.ToList().Where(x => x.UserName.ToLower() == logUser.ToLower())
+                                                                                select usr;
+
+                                                        if (myPlChkUsrlkChild.Count() == 0)
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                        this)">Like</a></span>
+                                                        }
+                                                        else
+                                                        {
+                                                                            <span><a class="links" onclick="CommentLike(@item.PostId, @pComReply.CommentId,
+                                                    this)">UnLike</a></span>
+                                                        }
+                                                        
+                                                                        }
+                                                                        <span><a class="links">More</a></span> </span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                
+                                                        if (pCom.PostCommentChilds.Count() == 0)
+                                                        {
+                                                            IsLast = true;
+                                                        }
+
+                                                        if (IsLast)
+                                                        {
+                                                            break;
+                                                        }
+
+                                                        foreach (var itemRepInn in pCom.PostCommentChilds)
+                                                        {
+                                                            if (itemRepInn.PostCommentChilds.Count() > 0)
+                                                            {
+                                                                pCom = itemRepInn;
+                                                            }
+                                                            else
+                                                            {
+                                                                IsLast = true;
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                }
+                                            }
+                                        </ol>
+                                    }
+                                    <ol class="postCurrentComment-@item.PostId comment-ol">
+                                    </ol>
+                                </div>
+                            </div>
+                            <div id="comLoad-@item.PostId" class="com-loader block-inline">
+                            </div>
+                            <div class="post-comment">
+                                <input type="text" name="postCommentBox-@item.PostId"
+                        id="postCommentBox-@item.PostId" class="post-comment-box" value="Write a comment..."
+                        onfocus="CommentBoxFocus(this.id)" onblur="CommentBoxOnBlur(this)" onkeypress="EnterKeyCommentSubmit(this.id,
+                        @item.PostId, this.value, event)" />
+                                <input type="hidden" name="pComIdHd" id="pComIdHd-@item.PostId" value="" />
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+                }
+
+            }
+        }
+    </div>
+</div>
+<br />
+<script type="text/javascript">
+
+    function showComLoader(_Id) {
+        $(_Id).show();
+        var loader = '&nbsp;<img src="@Url.Content("~/Content/images/post-loader.gif")" align="absmiddle">&nbsp;';
+        $(_Id).fadeIn(400).html(loader);
+    };
+
+    function showLoader() {
+        $("#loader").show();
+        var loader = '&nbsp;<img src="@Url.Content("~/Content/images/post-loader.gif")" align="absmiddle">&nbsp;';
+        $("#loader").fadeIn(400).html(loader);
+    };
+
+    function PostLike(postId, clickId) {
+        var lLdId = "#comLoad-" + postId;
+        if (!postId) {
+            //alert("empty!"); //for test
+        }
+        else {
+            showComLoader(lLdId);
+            $.ajax({
+                type: "POST",
+                url: "/Post/PostLikeSubmit",
+                data: { id: postId },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                    } else {
+                        if (data.Html != null) {
+                            clickId.innerHTML = data.Html;
+                            var pLkUdId = "postLike-" + postId;
+                            $.ajax({
+                                type: "GET",
+                                url: "/Post/PostLikeShowUpdate",
+                                data: { pid: postId },
+                                cache: false,
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.Message) {
+                                        alert(data.Message); //for test
+                                    } else {
+                                        if (data.Html != null) {
+                                            document.getElementById(pLkUdId).innerHTML = "";
+                                            document.getElementById(pLkUdId).innerHTML = data.Html;
+                                            $(lLdId).hide();
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
+    function CommentLike(postId, comId, clickId) {
+        var lLdId = "#comLoad-" + postId;
+        if (!postId && !comId) {
+            //alert("empty!"); //for test
+        }
+        else {
+            showComLoader(lLdId);
+            $.ajax({
+                type: "POST",
+                url: "/Post/CommentLikeSubmit",
+                data: { pid: postId, cid: comId },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                    } else {
+                        if (data.Html != null) {
+                            clickId.innerHTML = data.Html;
+                            $(lLdId).hide();
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
+    function EventAttend(postId, eventPostId) {
+        var eAttDialogId = "eventAttan-" + eventPostId;
+        var dialogId = "#eventAttan-" + eventPostId;
+        var isDialog = false;
+
+        if (dialogId != null) {
+            $(dialogId).dialog({
+                autoOpen: false,
+                width: 450,
+                resizable: false,
+                modal: true
+            });
+            isDialog = true;
+        }
+
+        if (isDialog == true) {
+            $.ajax({
+                type: "GET",
+                url: "/Post/PostEventAttend",
+                data: { pid: postId, eid: eventPostId },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                    } else {
+                        if (data.Html != null) {
+                            document.getElementById(eAttDialogId).innerHTML = data.Html;
+                            $(dialogId).dialog('open');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function EventAttendSubmit(IdValue, postId, eventId, changeId) {
+        if (!postId && !eventId) {
+            //alert("empty");
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "/Post/PostEventAttendSubmit",
+                data: { pid: postId, eid: eventId, eattId: IdValue },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                    } else {
+                        if (data.Html != null) {
+                            document.getElementById(changeId).innerHTML = "";
+                            document.getElementById(changeId).innerHTML = data.Html;
+                            $("#loader").hide();
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
+    function PollResultReload(pId, pollId) {
+        var vLdId = "#pstPoolVt-" + pId;
+        if (!pollId) {
+            //alert("empty!"); //for test
+        }
+        else {
+            showComLoader(vLdId);
+            $.ajax({
+                type: "GET",
+                url: "/Post/PostPollVoteReload",
+                data: { id: pId, pollId: pollId },
+                cache: false,
+                success: function (data) {
+                    if (data == "False") {
+                        alert(data); //for test
+                    } else {
+                        var cleanPoll = 'postPollRslt-' + pId;
+                        document.getElementById(cleanPoll).innerHTML = "";
+                        document.getElementById(cleanPoll).innerHTML = data;
+                        $(vLdId).hide();
+                    }
+                }
+            });
+        }
+
+    }
+
+    function PollVoteOption(pId, pollId) {
+        var vLdId = "#pstPoolVt-" + pId;
+        if (!pollId) {
+            //alert("empty!"); //for test
+        }
+        else {
+            showComLoader(vLdId);
+            $.ajax({
+                type: "GET",
+                url: "/Post/PostPollVoteOption",
+                data: { id: pId, pollId: pollId },
+                cache: false,
+                success: function (data) {
+                    if (data == "False") {
+                        alert(data); //for test
+                    } else {
+                        var cleanPoll = 'postPollRslt-' + pId;
+                        document.getElementById(cleanPoll).innerHTML = "";
+                        document.getElementById(cleanPoll).innerHTML = data;
+                        $(vLdId).hide();
+                    }
+                }
+            });
+        }
+
+    }
+
+    function PollVote(redioValue, pollId, postId) {
+        var svalue;
+        var arrAnswerValue = new Array();
+        arrAnswerValue = document.getElementsByName(redioValue);
+        for (var i = 0; i < arrAnswerValue.length; i++) {
+            var obj = document.getElementsByName(redioValue).item(i);
+            if (document.getElementsByName(redioValue).item(i).checked) {
+                svalue = obj.value;
+            }
+        }
+        if (svalue != null) {
+            PollVoteSubmit(svalue, pollId, postId)
+        }
+    }
+
+    function PollVoteSubmit(selectValue, pollId, postId) {
+        var checkValue = selectValue;
+        var postPollId = pollId;
+        var _id = postId;
+        var vLdId = "#pstPoolVt-" + _id;
+        if (!postPollId && !checkValue) {
+            //alert("empty!"); //for test
+        }
+        else {
+            //alert("Data Saving..."); //for test
+            showComLoader(vLdId);
+            $.ajax({
+                type: "POST",
+                url: "/Post/PostPollVote",
+                data: { select: checkValue, pollId: postPollId, id: _id },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        var cleanPoll = 'postPollRslt-' + _id;
+                        document.getElementById(cleanPoll).innerHTML = "";
+                        document.getElementById(cleanPoll).innerHTML = data.Html;
+                        $(vLdId).hide();
+                    }
+                }
+            });
+        }
+
+    }
+
+    function setCurrentMonth(selectOdj) {
+        var dt = new Date();
+        var currentMonth = dt.getMonth();
+        for (var i = 0; i < selectOdj.length; i++) {
+            if (selectOdj.options[i].value == currentMonth)
+                selectOdj.selectedIndex = i;
+        }
+    }
+
+    function setCurrentDate(selectOdj) {
+        var dt = new Date();
+        var currentDate = dt.getDate();
+        for (var i = 0; i < selectOdj.length; i++) {
+            if (selectOdj.options[i].value == currentDate)
+                selectOdj.selectedIndex = i;
+        }
+    }
+
+    function daysInMonth(month, year) {
+        var dd = new Date(year, month, 0);
+        return dd.getDate();
+    }
+
+    function setDayDrop(dmonth, dday) {
+        var dt = new Date();
+        var year = dt.getYear();
+        var month = dmonth;
+        var day = dday.options[dday.selectedIndex].value;
+        if (day == ' ' || day != ' ') {
+            var days = (month == ' ') ? 31 : daysInMonth(month, year);
+            dday.options.length = 0;
+            dday.options[dday.options.length] = new Option(' ', ' ');
+            for (var i = 1; i <= days; i++)
+                dday.options[dday.options.length] = new Option(i, i);
+        }
+    }
+
+    function setDay(monthValue, dayId) {
+        var month = monthValue;
+        var day = document.getElementById(dayId);
+        if (month != null && day != null) {
+            setDayDrop(month, day);
+        }
+    }
+
+    function PostUpdateForm(updateId) {
+        if (!updateId) {
+            //alert("post update id is empty!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "GET",
+                url: "/Post/PostUpdateForm",
+                data: { id: updateId },
+                cache: false,
+                success: function (data) {
+                    if (data == "False") {
+                        alert(data); //for test
+                    } else {
+                        document.getElementById("postArea").innerHTML = '';
+                        document.getElementById("postArea").innerHTML = data;
+                        $("#loader").hide();
+                    }
+                }
+            });
+        }
+
+    }
+
+    function PostQuestionForm(questionId) {
+        if (!questionId) {
+            //alert("post question id is empty!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "GET",
+                url: "/Post/PostQuestionForm",
+                data: { id: questionId },
+                cache: false,
+                success: function (data) {
+                    if (data == "False") {
+                        alert(data); //for test
+                    } else {
+                        document.getElementById("postArea").innerHTML = '';
+                        document.getElementById("postArea").innerHTML = data;
+                        $("#loader").hide();
+                    }
+                }
+            });
+        }
+
+    }
+
+    function PostEventForm(eventId) {
+        if (!eventId) {
+            //alert("post question id is empty!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "GET",
+                url: "/Post/PostEventForm",
+                data: { id: eventId },
+                cache: false,
+                success: function (data) {
+                    if (data == "False") {
+                        alert(data); //for test
+                    } else {
+                        document.getElementById("postArea").innerHTML = '';
+                        document.getElementById("postArea").innerHTML = data;
+                        $("#loader").hide();
+                    }
+                }
+            });
+        }
+    }
+
+    function PostPollForm(pollId) {
+        if (!pollId) {
+            //alert("post question id is empty!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "GET",
+                url: "/Post/PostPollForm",
+                data: { id: pollId },
+                cache: false,
+                success: function (data) {
+                    if (data == "False") {
+                        alert(data); //for test
+                    } else {
+                        document.getElementById("postArea").innerHTML = '';
+                        document.getElementById("postArea").innerHTML = data;
+                        $("#loader").hide();
+                    }
+                }
+            });
+        }
+    }
+
+    function PostUpdate(boxId, clickId) {
+        var postUpdateContent = $("#" + boxId).val();
+        if (!postUpdateContent) {
+            //alert("Can't post an empty note!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "/Post/PostUpdate",
+                data: { content: postUpdateContent },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        $("ol#currentPost").prepend(data.Html);
+                        $("ol#currentPost li:first").slideDown("slow");
+                        $("#loader").hide();
+                        document.getElementById(boxId).value = "";
+                        document.getElementById(boxId).value = "What are you doing on?";
+                        document.getElementById(boxId).blur();
+                        BtnDisabled(clickId);
+                    }
+                }
+            });
+        }
+    }
+
+    function PostQuestion(boxId, clickId) {
+        var postQuestionContent = $("#" + boxId).val();
+        if (!postQuestionContent) {
+            //alert("Can't post an empty note!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "/Post/PostQuestion",
+                data: { content: postQuestionContent },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        $("ol#currentPost").prepend(data.Html);
+                        $("ol#currentPost li:first").slideDown("slow");
+                        $("#loader").hide();
+                        document.getElementById(boxId).value = "";
+                        document.getElementById(boxId).value = "What would you like to know?";
+                        document.getElementById(boxId).blur();
+                        BtnDisabled(clickId);
+                    }
+                }
+            });
+        }
+    }
+
+    function PostEvent(postBoxId, clickId, postMonthId, postDateId, postTimeId, postDurationId, postVenueId, postNoteBoxId) {
+        var postEventContent = $("#" + postBoxId).val();
+        var postEventMonthValue = $("#" + postMonthId).val();
+        var postEventDateValue = $("#" + postDateId).val();
+        var postEventTimeValue = $("#" + postTimeId).val();
+        var postEventDurationValue = $("#" + postDurationId).val();
+        var postEventVenueValue = $("#" + postVenueId).val();
+        var postEventNoteValue = $("#" + postNoteBoxId).val();
+
+        if (!postEventContent) {
+            //alert("Can't post an empty note!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "/Post/PostEvent",
+                data: { content: postEventContent, month: postEventMonthValue, date: postEventDateValue, time: postEventTimeValue, duration: postEventDurationValue, venue: postEventVenueValue, note: postEventNoteValue },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        $("ol#currentPost").prepend(data.Html);
+                        $("ol#currentPost li:first").slideDown("slow");
+                        $("#loader").hide();
+                        document.getElementById(postBoxId).value = "";
+                        document.getElementById(postBoxId).value = "What are you planning?";
+                        document.getElementById(postBoxId).blur();
+                        document.getElementById(postVenueId).value = "";
+                        document.getElementById(postVenueId).value = "Where?";
+                        document.getElementById(postVenueId).blur();
+                        document.getElementById(postNoteBoxId).value = "";
+                        document.getElementById(postNoteBoxId).value = "Description";
+                        document.getElementById(postNoteBoxId).blur();
+                        BtnDisabled(clickId);
+                    }
+                }
+            });
+        }
+    }
+
+    function PostPoll(postBoxId, clickId, answerName) {
+        var arrAnswer = new Array();
+        arrAnswer = document.getElementsByName(answerName);
+        var arrAnswerValue = new Array();
+        var postPollContent = $("#" + postBoxId).val();
+        for (var i = 0; i < arrAnswer.length; i++) {
+            var obj = document.getElementsByName(answerName).item(i);
+            var odjClass = document.getElementsByName(answerName).item(i).className;
+            var letterArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            if (odjClass == 'pollAnswerFocus') {
+                arrAnswerValue.push(obj.value);
+                var txtValue = 'Answer ' + letterArray[i];
+                obj.value = '';
+                obj.value = txtValue;
+            }
+        }
+
+        if (!postPollContent) {
+            //alert("Can't post an empty note!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "/Post/PostPoll",
+                data: { content: postPollContent, answers: JSON.stringify(arrAnswerValue) },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        $("ol#currentPost").prepend(data.Html);
+                        $("ol#currentPost li:first").slideDown("slow");
+                        $("#loader").hide();
+                        document.getElementById(postBoxId).value = "";
+                        document.getElementById(postBoxId).value = "What's your question?";
+                        document.getElementById(postBoxId).blur();
+                        BtnDisabled(clickId);
+                    }
+                }
+            });
+        }
+    }
+
+    //Post
+    function Post() {
+        var postContent = $("#postBox").val();
+        if (!postContent) {
+            //alert("Can't post an empty note!"); //for test
+        }
+        else {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "/Post/Add",
+                data: { content: postContent },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        $("ol#currentPost").prepend(data.Html);
+                        $("ol#currentPost li:first").slideDown("slow");
+                        $("#loader").hide();
+                        document.getElementById('postBox').value = '';
+                        document.getElementById('postBox').value = 'What are you doing on?';
+                        document.getElementById('postBox').blur();
+                    }
+                }
+            });
+        }
+    }
+
+    //Post Comment
+    function PostComment(boxId, postId, postComment) {
+        var pId = postId;
+        var postCommentContent = postComment;
+        var bId = boxId;
+        var cLdId = "#comLoad-" + pId;
+        if (!postCommentContent && !bId) {
+            //alert("Can't post comment an empty note!"); //for test
+        }
+        else {
+            //alert("Data Saving..."); //for test
+            showComLoader(cLdId);
+            $.ajax({
+                type: "POST",
+                url: "/Post/AddComment",
+                data: { id: pId, content: postCommentContent },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        var _olId = "postCurrentComment-" + pId;
+                        $('ol.' + _olId).append(data.Html);
+                        $('ol.' + _olId + 'li:first').slideDown("slow");
+                        document.getElementById(bId).value = '';
+                        document.getElementById(bId).value = 'Write a comment...';
+                        document.getElementById(bId).blur();
+                        var pComUdId = "postShowComment-" + pId;
+                        $.ajax({
+                            type: "GET",
+                            url: "/Post/PostCommentShowUpdate",
+                            data: { pid: pId },
+                            cache: false,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.Message) {
+                                    alert(data.Message); //for test
+                                } else {
+                                    if (data.Html != null) {
+                                        document.getElementById(pComUdId).innerHTML = "";
+                                        document.getElementById(pComUdId).innerHTML = data.Html;
+                                        $(cLdId).hide();
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+
+    }
+
+    //Post Comment to comment
+    function PostCommentToComment(boxId, postId, comId, postComment) {
+        var pId = postId;
+        var cId = comId;
+        var postCommentContent = postComment;
+        var bId = boxId;
+        var cLdId = "#comLoad-" + pId;
+        if (!postCommentContent && !bId && !cId) {
+            //alert("Can't post comment an empty note!"); //for test
+        }
+        else {
+            //alert("Data Saving..."); //for test
+            showComLoader(cLdId);
+            $.ajax({
+                type: "POST",
+                url: "/Post/AddCommentToComment",
+                data: { postId: pId, comId: cId, content: postCommentContent },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        var _olId = "postCurrentComment-" + pId;
+                        $('ol.' + _olId).append(data.Html);
+                        $('ol.' + _olId + 'li:first').slideDown("slow");
+                        document.getElementById(bId).value = '';
+                        document.getElementById(bId).value = 'Write a comment...';
+                        document.getElementById(bId).blur();
+                        var comIdHdId = "pComIdHd-" + pId;
+                        document.getElementById(comIdHdId).value = "";
+                        var pComUdId = "postShowComment-" + pId;
+                        $.ajax({
+                            type: "GET",
+                            url: "/Post/PostCommentShowUpdate",
+                            data: { pid: pId },
+                            cache: false,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.Message) {
+                                    alert(data.Message); //for test
+                                } else {
+                                    if (data.Html != null) {
+                                        document.getElementById(pComUdId).innerHTML = "";
+                                        document.getElementById(pComUdId).innerHTML = data.Html;
+                                        $(cLdId).hide();
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+
+    }
+
+    //Enter Key Submit
+    function EnterKeyPost(boxId, postValue) {
+        var postBoxId = boxId;
+        var postContent = postValue;
+        if (!postContent) {
+            //alert("Can't post an empty note!"); //for test
+        }
+        else {
+            //alert("Data Saving..."); //for test
+            $.ajax({
+                type: "POST",
+                url: "/Post/Add",
+                data: { content: postContent },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Message) {
+                        alert(data.Message); //for test
+                        $('#commonMessage').html(data.Message);
+                        $('#commonMessage').delay(400).slideDown(400).delay(3000).slideUp(400);
+                    } else {
+                        $("ol#currentPost").prepend(data.Html);
+                        $("ol#currentPost li:first").slideDown("slow");
+                        document.getElementById(postBoxId).value = '';
+                        document.getElementById(postBoxId).value = 'What are you doing on?';
+                        document.getElementById(postBoxId).blur();
+                    }
+                }
+            });
+        }
+    }
+
+    function UpdatePostBoxFocus(clicked_id) {
+        var updatePostBoxValue = document.getElementById(clicked_id).value;
+        if (updatePostBoxValue == "What are you doing on?") {
+            document.getElementById(clicked_id).focus();
+            document.getElementById(clicked_id).value = '';
+        }
+    }
+
+    function QuestionPostBoxFocus(clicked_id) {
+        var questionPostBoxValue = document.getElementById(clicked_id).value;
+        if (questionPostBoxValue == "What would you like to know?") {
+            document.getElementById(clicked_id).focus();
+            document.getElementById(clicked_id).value = '';
+        }
+    }
+
+    function EventPostBoxFocus(clicked_id) {
+        var eventPostBoxValue = document.getElementById(clicked_id).value;
+        if (eventPostBoxValue == "What are you planning?") {
+            document.getElementById(clicked_id).focus();
+            document.getElementById(clicked_id).value = '';
+        }
+    }
+
+    function EventPostVenueBoxFocus(clicked_id) {
+        var eventPostVenueBoxValue = document.getElementById(clicked_id).value;
+        if (eventPostVenueBoxValue == "Where?") {
+            document.getElementById(clicked_id).focus();
+            document.getElementById(clicked_id).value = '';
+        }
+    }
+
+    function EventPostNoteBoxFocus(clicked_id) {
+        var eventPostNoteBoxValue = document.getElementById(clicked_id).value;
+        if (eventPostNoteBoxValue == "Description") {
+            document.getElementById(clicked_id).focus();
+            document.getElementById(clicked_id).value = '';
+        }
+    }
+
+    function PollPostBoxFocus(clicked_id) {
+        var pollPostBoxValue = document.getElementById(clicked_id).value;
+        if (pollPostBoxValue == "What's your question?") {
+            document.getElementById(clicked_id).focus();
+            document.getElementById(clicked_id).value = '';
+        }
+    }
+
+    function AddPollAnswerBox(clicked_id) {
+        var arr = new Array();
+        arr = document.getElementsByName(clicked_id);
+        var lastArr = arr[arr.length - 1].value;
+        var arrIndex = arr.length;
+        var letterArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        var txtValue = letterArray[arrIndex];
+        var textboxHtml = '<p class="post-poll-answer"><input type="text" name="postPollAnswer" class="post-poll-answer-text" value="Answer ' + txtValue + '" onfocus="inputOnFocus(this)" onblur="inputOnBlur(this)" onclick="AddPollAnswerBox(this.name)" onkeypress="AddPollAnswerBox(this.name)" /></p>';
+
+        if (lastArr == '' && arrIndex != 26) {
+            var answerBoxAppend = document.getElementById("pollAnswerBox");
+            $(answerBoxAppend).append(textboxHtml);
+            arr[arr.length - 2].value = "";
+            arr[arr.length - 2].focus();
+        }
+    }
+
+    function inputOnFocus(i) {
+        if (i.value == i.defaultValue) { i.value = ""; i.className = 'pollAnswerFocus'; }
+    }
+
+    function inputOnBlur(i) {
+        if (i.value == "") { i.value = i.defaultValue; i.className = 'pollAnswerBlur'; }
+    }
+
+    function EnterKeyPostSubmit(boxId, value, e) {
+        if (e.keyCode == 13) {
+            EnterKeyPost(boxId, value);
+        }
+    }
+
+    function ButtonEnable(enableId, clickid) {
+        var clickBoxValuelength = clickid.value.length;
+        if ((document.getElementById(enableId).getAttribute('disabled') != false) && (clickBoxValuelength > 0)) {
+            document.getElementById(enableId).removeAttribute('disabled');
+            document.getElementById(enableId).className = 'postenablebtn';
+        }
+        else {
+            document.getElementById(enableId).setAttribute('disabled', 'disabled');
+            document.getElementById(enableId).className = 'postdisabledbtn';
+        }
+    }
+
+    function BtnDisabled(_id) {
+        document.getElementById(_id).setAttribute('disabled', 'disabled');
+        document.getElementById(_id).className = 'postdisabledbtn';
+    }
+
+    function CommentBoxOnBlur(i) {
+        if (i.value == "") { i.value = i.defaultValue; }
+    }
+
+    function CommentLinkFocus(cliked_value) {
+        var commentboxId = 'postCommentBox-' + cliked_value;
+        var commentBoxValue = document.getElementById(commentboxId).value;
+        if (commentBoxValue == "Write a comment...") {
+            document.getElementById(commentboxId).focus();
+            document.getElementById(commentboxId).value = '';
+        }
+    }
+
+    function ReplayLinkFocus(cliked_value, comId) {
+        var commentboxId = 'postCommentBox-' + cliked_value;
+        var commentBoxValue = document.getElementById(commentboxId).value;
+        var comIdHdId = 'pComIdHd-' + cliked_value;
+        document.getElementById(comIdHdId).value = '';
+        var comHdValue = document.getElementById(comIdHdId).value;
+        if (commentBoxValue == "Write a comment..." && comHdValue == '') {
+            document.getElementById(commentboxId).focus();
+            document.getElementById(commentboxId).value = '';
+            document.getElementById(comIdHdId).value += comId;
+        }
+
+    }
+
+    function CommentBoxFocus(clicked_id) {
+        var commentBoxValue = document.getElementById(clicked_id).value;
+        if (commentBoxValue == "Write a comment...") {
+            document.getElementById(clicked_id).focus();
+            document.getElementById(clicked_id).value = '';
+        }
+    }
+
+    function EnterKeyCommentSubmit(boxId, postId, value, e) {
+        if (e.keyCode == 13) {
+            var comIdHdId = "pComIdHd-" + postId;
+            var commIdValue = document.getElementById(comIdHdId).value;
+            if (!commIdValue) {
+                PostComment(boxId, postId, value);
+            }
+            else {
+                PostCommentToComment(boxId, postId, commIdValue, value)
+            }
+        }
+    }
+
+</script>

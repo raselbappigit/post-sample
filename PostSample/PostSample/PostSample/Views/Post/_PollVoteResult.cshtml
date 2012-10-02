@@ -1,0 +1,37 @@
+﻿@model PostSample.Models.PollPost
+@using PostSample.Helpers
+@if (Model != null)
+{
+    <div class="poll-vote-result">
+        <ul class="poll-answer">
+            @foreach (var itemPostPollAnswer in Model.PollAnswers.ToList())
+            {
+                int totalvote = 0;
+                int percent = 0;
+                totalvote = totalvote + Model.TotalVote;
+                if (totalvote > 0 && itemPostPollAnswer.AnswerCount > 0)
+                {
+                    percent = (Int32)(100 / (totalvote * itemPostPollAnswer.AnswerCount));
+                }
+                <li>
+                    <div class="block-list poll-answer-text">@itemPostPollAnswer.AnswerContent</div>
+                    <div class="poll-answer-vote-rslt">
+                        <div style="width: 200px !important;">
+                            <span class="poll-answer-vote-rslt-display"  style="width:@percent% !important;">&nbsp;</span>
+                        </div>
+                        <div class="poll-answer-vote-percent-value">
+                            @percent %
+                        </div>
+                    </div>
+                </li> 
+                
+            }
+        </ul>
+        <div class="poll-options">
+            <div class="poll-go-result">
+                <span class="poll-count">@Model.TotalVote total votes </span><span class="poll-action">
+                    <a class="links" onclick="PollVoteOption(@Model.PostId, @Model.Id)">Change vote</a></span><span
+                        class="poll-action"><a class="links" onclick="PollResultReload(@Model.PostId, @Model.Id)">Reload</a></span></div>
+        </div>
+    </div>
+}

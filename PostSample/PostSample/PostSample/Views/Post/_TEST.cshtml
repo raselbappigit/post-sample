@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "_TEST";
+}
+<div class="post">
+    <ol class="post-ol">
+        <li id="post-@item.PostId" class="post-item">
+            <div class="post-container block-inline">
+                <div class="post-img">
+                    <img src="../../Content/images/profile.png" class="poster-image" alt="image" />
+                </div>
+                <div class="post-content-body">
+                    <div class="content">
+                        <span class="block-list">Rasel Ahmmed</span> <span class="block-list word-break">
+                            @item.Content</span>
+                    </div>
+                    <div class="content">
+                        <span class="content-time">@item.CreatedDate.ToString("dd MMMM, yyyy") at @item.CreatedDate.ToString("hh:mm tt")</span><span
+                            class="content-links"><span class="content-action"> <span><a class="links" onclick="CommentLinkFocus(@item.PostId)">
+                                Comment</a></span> <span><a class="links">Like</a></span> <span><a class="links">More</a></span>
+                            </span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="post-comments-container block-inline">
+                <div class="comment-pointer">
+                    <span class="comment-pointer-icon icon-inline"></span>
+                </div>
+                <div class="post-like-container">
+                    <span class="smill-icon icon-inline"></span><span class="likes-text">Like by @* @foreach (var itemLike in collection)
+                                    {
+                                        if (true)
+                                        {
+                                        <em>you,</em>
+                                        }
+                                        else
+                                        {
+                                        <a title="" href="#">Rasel Ahmmed</a>
+                                        }
+                                    }*@ </span>
+                </div>
+                <div class="post-show-comments-container">
+                    @* @foreach (var itemShowOlder in collection)
+                                {
+                                    <a class="show-older-comments" href="#" title="show comments">Show 0 older comments
+                                        »</a>
+                                }*@
+                </div>
+                <div class="post-comments-body">
+                    <div class="post-comment-list">
+                        <ol class="postCurrentComment-@item.PostId comment-ol">
+                        </ol>
+                        @if (item.PostComments.Count() > 0)
+                        {
+                            foreach (var itemComment in item.PostComments.ToList().OrderByDescending(x => x.CommentId))
+                            {
+                            <ol class="comment-ol">
+                                <li class="post-comment-@itemComment.CommentId post-comment-item">
+                                    <div class="comment">
+                                        <div class="comment-img">
+                                            <img src="../../Content/images/profile.png" class="commenter-image" alt="image" />
+                                        </div>
+                                        <div class="comment-content">
+                                            <div class="content">
+                                                <span>@itemComment.Content</span>
+                                            </div>
+                                            <div class="content">
+                                                <span class="content-time">@itemComment.CreatedDate.ToString("dd MMMM, yyyy") at @itemComment.CreatedDate.ToString("hh:mm tt")</span><span
+                                                    class="content-links"><span class="content-action"> <span><a class="links" onclick="CommentLinkFocus(@item.PostId)">
+                                                        Replay</a></span> <span><a class="links">Like</a></span> <span><a class="links">More</a></span>
+                                                    </span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                            }
+
+                        }
+                    </div>
+                </div>
+                <div class="post-comment">
+                    <input type="text" name="postCommentBox-@item.PostId" id="postCommentBox-@item.PostId" class="post-comment-box" value="Write a comment..." onfocus="CommentBoxFocus(this.id)" onblur="CommentBoxOnBlur(this)" onkeypress="EnterKeyCommentSubmit(this.id, @item.PostId, this.value, event)"   />
+                </div>
+            </div>
+        </li>
+    </ol>
+</div>

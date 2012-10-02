@@ -1,0 +1,31 @@
+﻿@model PostSample.Models.PollPost
+@using PostSample.Helpers
+@if (Model != null)
+{
+    <div class="poll-vote-option">
+        <ul class="poll-answer">
+            @foreach (var itemPostPollAnswer in Model.PollAnswers.ToList())
+            {
+                <li>
+                    <div class="block-list">
+                        <span class="poll-answer-rdo-list">
+                            <input type="radio" name="pollAnswerRedioBtn" id="pollAnswerRedioBtn-@itemPostPollAnswer.Id" class="poll-answer-rdo" value="@itemPostPollAnswer.Id" />
+                            <label class="poll-answer-label" for="pollAnswerRedioBtn-@itemPostPollAnswer.Id">@itemPostPollAnswer.AnswerContent
+                            </label>
+                        </span>
+                    </div>
+                </li> 
+                
+            }
+        </ul>
+        <div class="poll-options">
+            <div class="poll-vote-btn">
+                <input type="button" name="pollVote" id="pollVote-@Model.Id" class="poll-vote-button" onclick="PollVote('pollAnswerRedioBtn', @Model.Id, @Model.PostId)" value="Vote" />
+            </div>
+            <div class="poll-go-result">
+                <span class="poll-count">@Model.TotalVote total votes </span><span class="poll-action">
+                    <a class="links" onclick="PollResultReload(@Model.PostId, @Model.Id)">Go to results</a></span>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,11 @@
+﻿<div id="post-question-form">
+    <div class="post-content-textarea">
+        <textarea name="postQuestionBox" id="postQuestionBox" class="post-textarea" placeholder="What would you like to know?"
+            onclick="QuestionPostBoxFocus(this.id)" onkeyup="ButtonEnable('postQuestionButton', this)"></textarea>
+    </div>
+    <div class="post-content-button">
+        <input type="button" name="postQuestionButton" id="postQuestionButton" class="postdisabledbtn"
+            disabled="disabled" onclick="PostQuestion('postQuestionBox', 'postQuestionButton')"
+            value="Ask" />
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model PostSample.Models.Post
+@using PostSample.Helpers
+@if (Model != null)
+{
+    string logUser = @User.Identity.Name;
+
+    if (Model.LikeStatues.Count() > 0)
+    {
+    <div class="post-like-container">
+        <span class="smill-icon icon-inline"></span><span class="likes-text"><span class="plan-span">
+            Like by</span>
+            @foreach (var itemLike in Model.LikeStatues.ToList())
+            {
+                foreach (var itemLksUser in itemLike.Users.ToList())
+                {
+                    if (logUser == itemLksUser.UserName)
+                    {
+                <span class="plan-span"><a class="user-name links" title="@itemLksUser.FullName" href="/Account/ProfileInfo?content=@itemLksUser.UserName">
+                    you</a></span>
+                    }
+                    else
+                    {
+                <span class="plan-span"><a class="user-name links" title="@itemLksUser.FullName" href="/Account/ProfileInfo?content=@itemLksUser.UserName">@itemLksUser.FullName</a>
+                    ,</span>
+                    }
+
+                }
+            }
+        </span>
+    </div>
+    }
+}

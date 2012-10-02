@@ -1,0 +1,51 @@
+﻿@model PostSample.Models.Post
+@using PostSample.Helpers
+@if (Model != null)
+{
+    <div class="event-attend-dialog">
+        <div class="event-content-left">
+            <div class="event-content">
+                <div class="post-event-img">
+                    <span class="block-list event-month">@Model.EventPost.EventDateTime.ToString("MMM")</span><span
+                        class="block-list event-date">@Model.EventPost.EventDateTime.ToString("dd")</span>
+                </div>
+                <div class="block-list word-break event-datails">
+                    <span class="block-list word-break event-text">@Model.Content</span> <span class="block-list word-break event-time">@Model.EventPost.EventDateTime.ToString("F")</span>
+                    <span class="block-list word-break event-duration">@Model.EventPost.EventDuration</span>
+                    <span class="block-list word-break event-venue">@Model.EventPost.EventVenue</span>
+                    <span class="block-list word-break event-note">@Model.EventPost.EventNote</span>
+                </div>
+            </div>
+        </div>
+        <div class="event-content-middel">
+            <div class="event-attend-person">
+                Attending persons</div>
+            <div id="eAttnPerson" class="event-attend-person-img">
+                @if (Model.EventPost.EventAttendPersons.Count() > 0)
+                {
+                    foreach (var itemEventPersons in Model.EventPost.EventAttendPersons.ToList())
+                    {
+                    <span class="plan-span"><a class="links" href="#" title="@itemEventPersons.User.FullName">
+                        <img src="../../Content/images/profile.png" class="poster-image" alt="@itemEventPersons.User.FullName" /></a></span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="event-content-right">
+            <div class="event-attend-option">
+                <div class="event-type">
+                    <input type="radio" name="eventAttendType" id="eventTypeYes" value="1" onclick="EventAttendSubmit(this.value, @Model.PostId, @Model.EventPostId, 'eAttnPerson')" /><label
+                        for="eventTypeYes">Yes, I'm attending</label>
+                </div>
+                <div class="event-type">
+                    <input type="radio" name="eventAttendType" id="eventTypeMaybe" value="2" onclick="EventAttendSubmit(this.value, @Model.PostId, @Model.EventPostId, 'eAttnPerson')" /><label
+                        for="eventTypeMaybe">Maybe, I might attend</label>
+                </div>
+                <div class="event-type">
+                    <input type="radio" name="eventAttendType" id="eventTypeNo" value="3" onclick="EventAttendSubmit(this.value, @Model.PostId, @Model.EventPostId, 'eAttnPerson')" /><label
+                        for="eventTypeNo">No, I won't attend</label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
